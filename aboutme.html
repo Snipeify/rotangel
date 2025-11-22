@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>rotangel</title>
+  <title>rotangel • Atmospheric Producer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Official Website of rotangel - atmospheric breakcore & dnb artist. Music, videos, blog, gallery, downloads, and more.">
+  <link rel="icon" href="https://cdn.pixabay.com/photo/2012/04/11/16/29/angel-28706_1280.png">
   <style>
     :root {
       --accent: #88ccee;
@@ -11,6 +13,8 @@
       --bg2: #d9effa;
       --primary: #18557a;
       --text: #183140;
+      --border: #c5e6f7;
+      --shadow: rgba(136,204,238,0.12);
     }
 
     html, body {
@@ -22,78 +26,103 @@
       background: linear-gradient(135deg, var(--bg) 50%, var(--bg2) 100%);
       min-height: 100vh;
       color: var(--text);
-      overflow: hidden;
+      scroll-behavior: smooth;
+      overflow: visible;
     }
 
     body {
       width: 100vw;
-      height: 100vh;
+      min-height: 100vh;
       position: relative;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
       min-height: 100vh;
+      background-attachment: fixed;
     }
 
     #particle-canvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
       pointer-events: none;
     }
 
-    .center-content {
+    header {
+      z-index: 5;
       position: relative;
-      z-index: 2;
-      background: rgba(255,255,255,0.87);
-      backdrop-filter: blur(6px) saturate(110%);
-      border-radius: 2rem;
-      box-shadow: 0 4px 32px 0 rgba(136,204,238,0.18),0 1.5px 9px 0 rgba(24,49,64,0.1);
-      width: min(95vw,430px);
-      margin: 0 auto;
-      padding: 3.5rem 2.4rem 2rem 2.4rem;
+      width: 100%;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(4px) saturate(108%);
+      box-shadow: 0 0.5px 8px var(--shadow);
+      border-bottom: 1.5px solid var(--accent);
+      padding: 0.7rem 2.4rem 0.5rem 2.4rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      animation: fadeUp 1.2s cubic-bezier(.22,1,.36,1.1);
+      justify-content: space-between;
     }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(60px) scale(.98);
-      }
-      to {
-        opacity: 1;
-        transform: none;
-      }
-    }
-
-    .rotangel-title {
-      font-size: clamp(2.2rem,7vw,3.4rem);
+    .site-logo {
+      font-size: 2.04rem;
       font-weight: 900;
       letter-spacing: -0.04em;
-      margin-bottom: 1.1rem;
       color: var(--primary);
-      text-align: center;
       background: linear-gradient(92deg, var(--primary) 0%, var(--accent) 100%);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 1.5px 0 var(--bg2));
       user-select: none;
-      transition: letter-spacing .3s cubic-bezier(.53,1.96,.85,1.21);
+      cursor: pointer;
+      text-shadow: 0 1px 0 var(--bg2);
     }
-    .rotangel-title:hover {
-      letter-spacing: 0.05em;
-      filter: drop-shadow(0 2.5px 0 var(--accent));
+    nav.main-nav {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-link {
+      padding: .35rem 1rem;
+      border-radius: 0.55rem;
+      font-weight: 600;
+      color: var(--primary);
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 1.08rem;
+      transition: background 0.18s, color 0.18s;
+      letter-spacing: 0.03em;
+    }
+    .nav-link.active,
+    .nav-link:hover {
+      background: var(--accent);
+      color: #fff;
     }
 
-    .tabs {
+    main#content {
+      margin: 2.6rem auto 0 auto;
+      background: rgba(255,255,255,0.91);
+      border-radius: 2.2rem;
+      box-shadow: 0 4px 32px 0 rgba(136,204,238,0.20),
+                  0 1.5px 9px 0 rgba(24,49,64,0.12);
+      width: min(96vw, 950px);
+      min-height: 300px;
+      position: relative;
+      padding: 2.8rem 3.1rem 2.1rem 3.1rem;
+      z-index: 2;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      align-items: stretch;
+      animation: fadeUp 1.2s cubic-bezier(.22,1,.36,1.1);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(60px) scale(.98);}
+      to { opacity: 1; transform: none;}
+    }
+
+    .section-tabset {
+      display: flex;
       background: rgba(136,204,238,0.16);
       border-radius: 1.2rem;
       padding: .2rem;
@@ -103,22 +132,21 @@
       gap: 0.6rem;
     }
 
-    .tab {
-      min-width: 89px;
+    .section-tab {
+      min-width: 95px;
       font-size: 1.1rem;
-      font-weight: 520;
-      padding: 0.6rem 1.5rem;
+      font-weight: 530;
+      padding: 0.6rem 1.7rem;
       border: none;
       border-radius: .8rem;
       background: none;
       color: var(--primary);
-      transition: background .21s, color .21s;
+      transition: background .18s, color .21s;
       cursor: pointer;
       outline: none;
-      opacity: 0.87;
-      letter-spacing: 0.03em;
+      opacity: 0.89;
     }
-    .tab.active {
+    .section-tab.active {
       background: var(--accent);
       color: #fff;
       opacity: 1;
@@ -126,96 +154,312 @@
       font-weight: 700;
       transform: scale(1.04);
     }
-    .tab:not(.active):hover {
+    .section-tab:not(.active):hover {
       background: rgba(136,204,238,0.29);
       color: var(--primary);
     }
 
-    .tab-content {
+    .section-content {
       margin-top: 0;
       width: 100%;
-      min-height: 95px;
-      max-width: 350px;
-      animation: fadeIn .75s;
-      background: none;
+      animation: fadeIn .84s;
       color: var(--text);
       font-size: 1.13rem;
-      line-height: 1.5;
+      min-height: 160px;
+      line-height: 1.56;
       position: relative;
-      text-align: center;
+      text-align: left;
+      display: none;
     }
-    @keyframes fadeIn {
-      from { opacity:0; transform: translateY(28px);}
-      to { opacity:1; transform: none;}
-    }
+    .section-content.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(28px);} to { opacity:1; transform: none;} }
 
-    audio {
-      width: 100%;
-      border-radius: .6rem;
-      margin: 1.5rem 0 .2rem 0;
-      background: rgba(136,204,238,0.13);
-    }
-
+    /* Extended features styling */
     .beat-list {
       display: flex;
       flex-direction: column;
-      gap: 2.8rem;
+      gap: 2.5rem;
       width: 100%;
       margin: 0 auto;
       margin-top: 1.2rem;
+      max-width: 860px;
     }
     .beat-card {
-      background: rgba(136,204,238,0.11);
+      background: rgba(136,204,238,0.13);
       border-radius: 1rem;
-      padding: 1rem .75rem 1.7rem .75rem;
-      box-shadow: 0 2px 12px 0 rgba(136,204,238,0.08);
+      padding: 1.06rem .8rem 1.9rem .8rem;
+      box-shadow: 0 2px 12px 0 rgba(136,204,238,0.09);
       text-align: left;
       transition: transform .2s, box-shadow .21s;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 2.2rem;
+      min-width: 170px;
     }
     .beat-card:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 4px 32px 0 rgba(136,204,238,0.15);
-      background: rgba(136,204,238,0.19);
+      transform: translateY(-2.5px) scale(1.012);
+      box-shadow: 0 4px 32px 0 rgba(136,204,238,0.17);
+      background: rgba(136,204,238,0.22);
     }
+    .beat-info { flex: 1 1 0; }
     .beat-title {
       font-weight: bold;
       color: var(--primary);
-      font-size: 1.06em;
-      margin-bottom: 0.2em;
-      text-align: center;
+      font-size: 1.17em;
+      margin-bottom: 0.18em;
+      text-align: left;
     }
     .beat-desc {
-      font-size: 0.97em;
+      font-size: 1.01em;
       color: var(--text);
       margin-bottom: 0.7em;
-      opacity: 0.75;
+      opacity: 0.76;
+      text-align: left;
+    }
+    .beat-meta {
+      font-size: 0.92em;
+      margin-bottom: 0.5em;
+      color: #4b7891;
+      opacity: .64;
+    }
+    .beat-cover {
+      width: 86px; height: 86px;
+      border-radius: 11px;
+      object-fit: cover;
+      box-shadow: 0 1.5px 14px 0 rgba(136,204,238,0.13);
+    }
+    audio {
+      width: 99%;
+      border-radius: .6rem;
+      margin: .8rem 0 .15rem 0;
+      background: rgba(136,204,238,0.13);
+    }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.2rem;
+      margin: 1.5rem 0 1.3rem 0;
+      align-items: stretch;
+    }
+    .gallery-item {
+      background: rgba(136,204,238,0.10);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 2px 12px 0 rgba(136,204,238,0.09);
+      transition: box-shadow .19s, transform .17s;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1.5px solid var(--accent);
+      background: #f0faff;
+      transition: filter .19s;
+    }
+    .gallery-item:hover img { filter: saturate(1.17) contrast(1.07); }
+    .gallery-caption {
+      padding: 0.8rem 1.1rem;
+      font-size: 0.98em;
+      color: var(--text);
+      opacity: 0.83;
+      flex: 1 1 0;
+    }
+
+    /* Blog */
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.7rem;
+      margin: .9rem 0;
+      max-width: 740px;
+    }
+    .blog-post {
+      background: rgba(136,204,238,0.13);
+      border-radius: 1rem;
+      box-shadow: 0 1.5px 9px 0 rgba(136,204,238,0.06);
+      padding: 1.4rem 1.3rem 1.3rem .9rem;
+      position: relative;
+    }
+    .blog-title {
+      font-size: 1.13em;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: .5em;
+    }
+    .blog-date {
+      font-size: 0.94em;
+      opacity: 0.56;
+      color: var(--accent);
+      margin-bottom: 0.7em;
+    }
+    .blog-content {
+      font-size: 1.01em;
+      color: var(--text);
+      opacity: 0.86;
+      line-height: 1.58;
+    }
+
+    /* Contact */
+    .contact-form {
+      max-width: 490px;
+      margin: 2rem auto 1.2rem auto;
+      padding: 1.8rem 1.4rem;
+      background: rgba(136,204,238,0.085);
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 8px 0 rgba(136,204,238,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      color: var(--primary);
+      font-weight: 590;
+      font-size: 1.05em;
+    }
+    .form-group input,
+    .form-group textarea {
+      border: 1.5px solid var(--border);
+      border-radius: 0.6em;
+      font-family: inherit;
+      padding: 0.7rem;
+      font-size: 1.04em;
+      background: #fff;
+      resize: vertical;
+      outline: none;
+      transition: border .14s;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+    button[type="submit"] {
+      align-self: flex-end;
+      padding: 0.67rem 1.6rem;
+      border: none;
+      border-radius: 0.57em;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.11em;
+      box-shadow: 0 1.5px 10px 0 rgba(136,204,238,0.13);
+      cursor: pointer;
+      transition: background .17s;
+    }
+    button[type="submit"]:hover {
+      background: #3897c7;
+    }
+    .form-success, .form-error {
+      font-weight: 600;
+      font-size: 1.1em;
+      margin-top: 6px;
+      padding: .36rem 0;
+    }
+    .form-success { color: #18887a;}
+    .form-error {  color: #c81f3c;}
+
+    /* Downloads */
+    .download-list {
+      margin: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      max-width: 650px;
+    }
+    .download-item {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      padding: 1.0rem 1.1rem;
+      background: rgba(136,204,238,0.13);
+      border-radius: .9rem;
+      transition: background .13s;
+      box-shadow: 0 1.3px 8px 0 rgba(136,204,238,0.07);
+    }
+    .download-item:hover {
+      background: rgba(136,204,238,0.23);
+    }
+    .download-title {
+      flex: 1 1 0;
+      font-weight: bold;
+      color: var(--primary);
+      font-size: 1.07em;
+    }
+    .download-link {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 0.39em;
+      padding: 0.45em 0.97em;
+      text-decoration: none;
+      font-size: 0.97em;
+      font-weight: 600;
+      transition: background .15s;
+      border: none;
+      cursor: pointer;
+    }
+    .download-link:hover {
+      background: #3897c7;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 2.4rem;
+      background: rgba(255,255,255,0.90);
+      padding: 1.5rem 2rem 1.1rem 2rem;
+      border-top: 2.5px solid var(--accent);
+      border-radius: 1.5rem 1.5rem 0 0;
       text-align: center;
+      font-size: 1.05rem;
+      color: var(--primary);
+      filter: drop-shadow(0 2px 12px var(--shadow));
+      opacity: 0.97;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Responsive */
+    @media (max-width: 1050px) {
+      main#content {
+        padding: 1.3rem .55rem .8rem .55rem;
+        width: min(99vw,99vw);
+        border-radius: 1.18rem;
+        max-width: 100vw;
+      }
+      .gallery-grid img { height: 140px;}
+    }
+    @media (max-width: 600px) {
+      header {
+        padding: 0.5rem 0.5rem 0.3rem 0.7rem;
+      }
+      .site-logo { font-size: 1.42rem;}
+      nav.main-nav { gap: .6rem; }
+      main#content {
+        padding: 0.7rem 0.18rem 0.9rem 0.18rem;
+        width: min(100vw,100vw);
+        border-radius: 0.7rem;
+        max-width: 100vw;
+      }
+      .gallery-grid img { height: 95px;}
     }
 
     /* Scrollbar */
     ::-webkit-scrollbar {
-      width: 8px;
+      width: 9px;
       background: var(--bg2);
     }
     ::-webkit-scrollbar-thumb {
       background: var(--accent);
-      border-radius:  12px;
-    }
-
-    @media (max-width: 600px) {
-      .center-content {
-        padding: 2rem 0.2rem 1rem 0.2rem;
-        width: min(99vw, 99vw);
-        border-radius: 1.2rem;
-        max-width: 100vw;
-      }
-      .tab-content {
-        max-width: 98vw;
-        font-size: 1.01rem;
-      }
+      border-radius: 12px;
     }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -224,55 +468,239 @@
 </head>
 <body>
   <canvas id="particle-canvas"></canvas>
-  <main class="center-content">
-    <div class="rotangel-title">rotangel</div>
-    <div class="tabs" role="tablist">
-      <button class="tab active" id="about-tab" role="tab" aria-selected="true" aria-controls="about-panel" tabindex="0">About</button>
-      <button class="tab" id="songs-tab" role="tab" aria-selected="false" aria-controls="songs-panel" tabindex="-1">Beats</button>
-    </div>
-    <section id="about-panel" class="tab-content" role="tabpanel" aria-labelledby="about-tab">
-      <p>
-        My name is rotangel. I’m 17, and I make atmospheric breakcore and dnb beats. I focus on creating sounds that feel personal and distinct to me.
-      </p>
+  <header>
+    <span class="site-logo" onclick="location.hash=''; location.reload();">rotangel</span>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-link active" data-nav="home">Home</button>
+      <button class="nav-link" data-nav="music">Music</button>
+      <button class="nav-link" data-nav="gallery">Gallery</button>
+      <button class="nav-link" data-nav="blog">Blog</button>
+      <button class="nav-link" data-nav="downloads">Downloads</button>
+      <button class="nav-link" data-nav="contact">Contact</button>
+    </nav>
+  </header>
+  <main id="content">
+    <!-- Home/About Section -->
+    <section class="section-content home-section active" id="section-home">
+      <div class="section-tabset" style="margin-bottom:2.2rem;">
+        <button class="section-tab active" data-tab="bio">About</button>
+        <button class="section-tab" data-tab="artist-statement">Artist Statement</button>
+        <button class="section-tab" data-tab="credits">Credits</button>
+      </div>
+      <div class="tabbed-content" id="bio" style="display:block;">
+        <h1 style="margin-top:0;font-weight:900;color:var(--primary);letter-spacing:-0.03em;">rotangel</h1>
+        <p>
+          Hi, I’m rotangel.<br>
+          I’m 17, and I make atmospheric breakcore and drum &amp; bass beats. My music is built on tons of layers, raw emotion, and textures that feel like worlds. I focus on creating sounds that feel personal and distinct to me.
+        </p>
+        <p>
+          I'm always experimenting with sound design, unconventional melodies, and mixing electronic with lo-fi influences. If you want beats for your project or just want to chat, reach out!
+        </p>
+      </div>
+      <div class="tabbed-content" id="artist-statement" style="display:none;">
+        <h2 style="margin-top:0;color:var(--accent);font-weight:800;letter-spacing:-0.01em;">Artist Statement</h2>
+        <p>
+          My music is a reflection of my experiences and inner landscape — full of tumult, introspection, and unexpected warmth. I love building lush soundscapes over gritty or glitched percussion, balancing chaos with calm. I hope to feel understood, or to help someone find a moment that resonates. Every beat is its own atmosphere.
+        </p>
+      </div>
+      <div class="tabbed-content" id="credits" style="display:none;">
+        <h2 style="margin-top:0;color:var(--accent);font-weight:800;letter-spacing:-0.01em;">Credits</h2>
+        <ul>
+          <li>Art direction, music, programming: rotangel</li>
+          <li>Sample sources: original, synth experimentation, select creative commons packs</li>
+          <li>Site built by rotangel - 2024</li>
+        </ul>
+      </div>
     </section>
-    <section id="songs-panel" class="tab-content" role="tabpanel" aria-labelledby="songs-tab" style="display:none;">
-      <div class="beat-list">
-        <div class="beat-card">
-          <div class="beat-title">Cloud Drift</div>
-          <div class="beat-desc">Floaty atmospheres, breakcore drums. Emotional layers.</div>
-          <audio controls>
-            <source src="https://cdn.pixabay.com/audio/2023/10/26/audio_13e4b51823.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-          </audio>
+
+    <!-- Music Section -->
+    <section class="section-content music-section" id="section-music">
+      <div class="section-tabset" style="margin-bottom:2.2rem;">
+        <button class="section-tab active" data-tab="beats">Beats</button>
+        <button class="section-tab" data-tab="albums">Albums</button>
+        <button class="section-tab" data-tab="playlist">Playlist</button>
+      </div>
+      <!-- Beats Tab -->
+      <div class="tabbed-content" id="beats" style="display:block;">
+        <div class="beat-list">
+          <div class="beat-card">
+            <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&w=400&q=80" alt="Cloud Drift Cover" class="beat-cover" />
+            <div class="beat-info">
+              <div class="beat-title">Cloud Drift</div>
+              <div class="beat-meta">2024 &middot; Single</div>
+              <div class="beat-desc">Floaty atmospheres, breakcore drums. Emotional layers.</div>
+              <audio controls>
+                <source src="https://cdn.pixabay.com/audio/2023/10/26/audio_13e4b51823.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="beat-card">
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&w=400&q=80" alt="Blue Haze Cover" class="beat-cover" />
+            <div class="beat-info">
+              <div class="beat-title">Blue Haze</div>
+              <div class="beat-meta">2023 &middot; Single</div>
+              <div class="beat-desc">Dreamy DnB textures with moody synths, all original.</div>
+              <audio controls>
+                <source src="https://cdn.pixabay.com/audio/2022/10/16/audio_128b922d29.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="beat-card">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&w=400&q=80" alt="Echoed Steps Cover" class="beat-cover" />
+            <div class="beat-info">
+              <div class="beat-title">Echoed Steps</div>
+              <div class="beat-meta">2023 &middot; Favorite</div>
+              <div class="beat-desc">Personal favorite—atmospheric breakbeats in a unique style.</div>
+              <audio controls>
+                <source src="https://cdn.pixabay.com/audio/2024/03/26/audio_1e74acfad2.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
         </div>
-        <div class="beat-card">
-          <div class="beat-title">Blue Haze</div>
-          <div class="beat-desc">Dreamy DnB textures with moody synths, all original.</div>
-          <audio controls>
-            <source src="https://cdn.pixabay.com/audio/2022/10/16/audio_128b922d29.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-          </audio>
+      </div>
+      <!-- Albums Tab -->
+      <div class="tabbed-content" id="albums" style="display:none;">
+        <h2 style="color:var(--primary);margin-top:0;">Albums/EPs</h2>
+        <ul>
+          <li><strong>Submerged Ruins</strong> (EP, 2024) <span style="color:var(--accent)">Coming soon</span></li>
+          <li><strong>Nightfall Sketches</strong> (Album, 2023) <a href="https://bandcamp.com/" style="color:var(--accent);text-decoration:underline;">Bandcamp</a></li>
+        </ul>
+      </div>
+      <!-- Playlist Tab -->
+      <div class="tabbed-content" id="playlist" style="display:none;">
+        <h2 style="color:var(--primary);margin-top:0;">Embedded Playlist</h2>
+        <iframe width="100%" height="160" allow="autoplay; encrypted-media"
+          src="https://open.spotify.com/embed/playlist/37i9dQZF1DX9LT7r8qPxfa?utm_source=generator" style="border:none;border-radius:14px;box-shadow:0 0 10px #ccefff;"></iframe>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section-content gallery-section" id="section-gallery">
+      <h2 style="margin-top:0;color:var(--primary);font-weight:800;">Photo &amp; Art Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1465101178521-c1a9136a2a25?auto=format&w=400&q=80" alt="Artwork 1">
+          <div class="gallery-caption">Atmospheric landscape. 2024 artwork.</div>
         </div>
-        <div class="beat-card">
-          <div class="beat-title">Echoed Steps</div>
-          <div class="beat-desc">Personal favorite—atmospheric breakbeats in a unique style.</div>
-          <audio controls>
-            <source src="https://cdn.pixabay.com/audio/2024/03/26/audio_1e74acfad2.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-          </audio>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&w=400&q=80" alt="Artwork 2">
+          <div class="gallery-caption">Cover exploration for next EP.</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&w=400&q=80" alt="Artwork 3">
+          <div class="gallery-caption">Original photo, layered in album art.</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&w=400&q=80" alt="Artwork 4">
+          <div class="gallery-caption">Textures that inspired "Echoed Steps".</div>
         </div>
       </div>
     </section>
+
+    <!-- Blog Section -->
+    <section class="section-content blog-section" id="section-blog">
+      <h2 style="margin-top:0;color:var(--primary);font-weight:800;">Blog &amp; News</h2>
+      <div class="blog-list">
+        <div class="blog-post">
+          <div class="blog-title">New beat uploaded: Cloud Drift</div>
+          <div class="blog-date">May 2024</div>
+          <div class="blog-content">I just finished a new atmospheric breakcore track. Cloud Drift is up for full listening. Feedback/DMs always appreciated!</div>
+        </div>
+        <div class="blog-post">
+          <div class="blog-title">Working on EP: Submerged Ruins</div>
+          <div class="blog-date">April 2024</div>
+          <div class="blog-content">
+            Lot of water-inspired sound design and melancholic chords. Will post snippets soon.<br>
+            If you want to collab, <a href="#section-contact" style="color:var(--accent);text-decoration:underline;">reach out here</a>.
+          </div>
+        </div>
+        <div class="blog-post">
+          <div class="blog-title">Website Rebuilt!</div>
+          <div class="blog-date">March 2024</div>
+          <div class="blog-content">
+            You're viewing the new version of my website with more features, a gallery, blog, download section, and more. <br>
+            Thanks for checking it out. More to come.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Downloads Section -->
+    <section class="section-content downloads-section" id="section-downloads">
+      <h2 style="margin-top:0;color:var(--primary);font-weight:800;">Downloads</h2>
+      <div class="download-list">
+        <div class="download-item">
+          <div class="download-title">Cloud Drift - WAV</div>
+          <a class="download-link" href="https://cdn.pixabay.com/audio/2023/10/26/audio_13e4b51823.mp3" download>Download</a>
+        </div>
+        <div class="download-item">
+          <div class="download-title">Blue Haze - WAV</div>
+          <a class="download-link" href="https://cdn.pixabay.com/audio/2022/10/16/audio_128b922d29.mp3" download>Download</a>
+        </div>
+        <div class="download-item">
+          <div class="download-title">Echoed Steps - WAV</div>
+          <a class="download-link" href="https://cdn.pixabay.com/audio/2024/03/26/audio_1e74acfad2.mp3" download>Download</a>
+        </div>
+        <div class="download-item">
+          <div class="download-title">All Beats Pack (.zip)</div>
+          <a class="download-link" href="#" download onclick="alert('Coming soon!');return false;">Download</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section-content contact-section" id="section-contact">
+      <h2 style="margin-top:0;color:var(--primary);font-weight:800;">Contact Me</h2>
+      <form class="contact-form" id="contact-form" autocomplete="off">
+        <div class="form-group">
+          <label for="cf-name">Name</label>
+          <input type="text" name="name" id="cf-name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="cf-email">Email</label>
+          <input type="email" name="email" id="cf-email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="cf-message">Message</label>
+          <textarea name="message" id="cf-message" rows="5" placeholder="Type your message..." required></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+        <div class="form-success" id="form-success" style="display:none;">Thank you! Message sent.</div>
+        <div class="form-error" id="form-error" style="display:none;">Error sending. Please try again later.</div>
+      </form>
+      <div style="text-align:center;margin:1.9rem 0 0 0;color:var(--primary);opacity:.82;">
+        Or email: <a href="mailto:rotangel.music@gmail.com" style="color:var(--accent);text-decoration:underline;">rotangel.music@gmail.com</a>
+        <br>DM on Discord: <b style="font-family:monospace;">rotangel#6830</b>
+      </div>
+      <div style="text-align:center;margin:1.5rem 0 0 0;">
+        <a href="https://twitter.com/" style="color:var(--accent);margin-right:1.3em;text-decoration:none;">Twitter</a>
+        <a href="https://instagram.com/" style="color:var(--accent);margin-right:1.3em;text-decoration:none;">Instagram</a>
+        <a href="https://bandcamp.com/" style="color:var(--accent);margin-right:1.3em;text-decoration:none;">Bandcamp</a>
+        <a href="https://soundcloud.com/" style="color:var(--accent);text-decoration:none;">SoundCloud</a>
+      </div>
+    </section>
   </main>
+  <footer>
+    &copy; 2024 rotangel &mdash; All music © rotangel. Site made with love and breakbeats.
+    <br>Built, designed, and coded by rotangel. 
+  </footer>
   <script>
-    // Particle animation system
+    // --- Background Particle Animation ---
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let dpr = window.devicePixelRatio || 1;
     let width = window.innerWidth;
     let height = window.innerHeight;
     let particles = [];
-    const PARTICLE_COUNT = Math.max(70, Math.floor(window.innerWidth * 0.11));
+    let _resizeTO;
+    function debounceResize(fn, delay=200) {
+      clearTimeout(_resizeTO);
+      _resizeTO = setTimeout(fn, delay);
+    }
+    const PARTICLE_COUNT = Math.max(85, Math.floor(window.innerWidth * 0.14));
     const COLORS = [
       "#88ccee", "#abd9f7", "#b8f0fc", "#e0f3ff", "#bcdbf5"
     ];
@@ -282,53 +710,49 @@
       height = window.innerHeight;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
-      ctx.setTransform(1,0,0,1,0,0);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
     }
-    window.addEventListener('resize', () => {
-      resizeCanvas();
-    });
+    window.addEventListener('resize', () => debounceResize(resizeCanvas, 200));
 
     class Particle {
-      constructor() {
-        this.init();
-      }
+      constructor() { this.init(); }
       init() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.r = Math.random() * 2.5 + 1.0;
+        this.r = Math.random() * 3.3 + 0.7;
         this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-        this.vel = (0.22 + Math.random() * 0.45) * (Math.random() < 0.5 ? 1 : -1);
+        this.vel = (0.21 + Math.random() * 0.55) * (Math.random() < 0.5 ? 1 : -1);
         this.angle = Math.random() * Math.PI * 2;
-        this.opacity = Math.random() * 0.35 + 0.45;
-        this.drift = (Math.random() - 0.5) * 0.42;
-        this.spin = (Math.random() - 0.5) * 0.012;
+        this.opacity = Math.random() * 0.23 + 0.48;
+        this.drift = (Math.random() - 0.5) * 0.41;
+        this.spin = (Math.random() - 0.5) * 0.011;
         this.t = Math.random() * Math.PI * 2;
       }
       update() {
-        this.t += 0.01 + Math.random()*0.013;
-        this.x += Math.cos(this.angle + this.t) * this.drift + Math.sin(this.angle) * (0.22 + Math.abs(this.drift) * 0.7);
-        this.y += Math.sin(this.angle + this.spin) * this.vel + 0.18 + Math.cos(this.angle) * 0.03;
-        this.x += Math.sin(this.angle + this.t / 2) * 0.07;
-        this.y += Math.cos(this.angle + this.t / 3) * 0.06;
+        this.t += 0.011 + Math.random() * 0.012;
+        this.x += Math.cos(this.angle + this.t) * this.drift + Math.sin(this.angle) * (0.25 + Math.abs(this.drift) * 0.73);
+        this.y += Math.sin(this.angle + this.spin) * this.vel + 0.22 + Math.cos(this.angle) * 0.035;
+        this.x += Math.sin(this.angle + this.t / 2) * 0.16;
+        this.y += Math.cos(this.angle + this.t / 3) * 0.09;
         // Wrap around
-        if (this.x > width+10) this.x = -12;
-        if (this.y > height+10) this.y = -12;
-        if (this.x < -13) this.x = width+10;
-        if (this.y < -13) this.y = height+10;
+        if (this.x > width + 17) this.x = -14;
+        if (this.y > height + 17) this.y = -14;
+        if (this.x < -18) this.x = width + 16;
+        if (this.y < -18) this.y = height + 16;
       }
       draw(ctx) {
         ctx.save();
         ctx.globalAlpha = this.opacity;
-        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * (1.7 + 0.6*Math.sin(this.t)));
+        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * (1.9 + 0.7*Math.sin(this.t)));
         grad.addColorStop(0, this.color);
         grad.addColorStop(1, "rgba(136,204,238,0)");
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r * (1.6 + 0.24 * Math.sin(this.t)), 0, 2 * Math.PI);
+        ctx.arc(this.x, this.y, this.r * (1.7 + 0.37 * Math.sin(this.t)), 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fillStyle = grad;
         ctx.shadowColor = this.color;
-        ctx.shadowBlur = 9;
+        ctx.shadowBlur = 12;
         ctx.fill();
         ctx.restore();
       }
@@ -342,7 +766,7 @@
     }
 
     function tick() {
-      ctx.clearRect(0,0,width, height);
+      ctx.clearRect(0, 0, width, height);
       for (let p of particles) {
         p.update();
         p.draw(ctx);
@@ -354,13 +778,12 @@
     createParticles();
     tick();
 
-    // Subtle interaction: add some mouse-based "wind" effect
-    let mouse = {x: width/2, y: height/2};
+    // Subtle mouse "wind" effect
+    let mouse = { x: width/2, y: height/2 };
     window.addEventListener('mousemove', (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     });
-
     setInterval(() => {
       for (let i = 0; i < 3; ++i) {
         let idx = Math.floor(Math.random() * particles.length);
@@ -369,41 +792,124 @@
         let dy = (mouse.y - p.y);
         let dist = Math.sqrt(dx*dx + dy*dy);
         if (dist < 180) {
-          // push particle away gently
           p.x -= dx * 0.02 * Math.random();
           p.y -= dy * 0.02 * Math.random();
         }
       }
     }, 26);
 
-    // Tabs logic
-    const tabs = document.querySelectorAll('.tab');
-    const panels = [document.getElementById('about-panel'), document.getElementById('songs-panel')];
+    // --- Site Navigation ---
+    const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+    const sections = {
+      'home': document.getElementById('section-home'),
+      'music': document.getElementById('section-music'),
+      'gallery': document.getElementById('section-gallery'),
+      'blog': document.getElementById('section-blog'),
+      'downloads': document.getElementById('section-downloads'),
+      'contact': document.getElementById('section-contact')
+    };
 
-    tabs.forEach((tab, idx) => {
-      tab.addEventListener('click', ()=> {
-        tabs.forEach(t2 => {
-          t2.classList.remove('active');
-          t2.setAttribute('aria-selected','false');
-          t2.tabIndex = -1;
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected','true');
-        tab.tabIndex = 0;
-        panels.forEach(p=>p.style.display="none");
-        panels[idx].style.display = "";
+    function activateSection(sectionKey) {
+      Object.values(sections).forEach(sec => sec.classList.remove('active'));
+      navLinks.forEach(n => n.classList.remove('active'));
+      if (sections[sectionKey]) sections[sectionKey].classList.add('active');
+      const nav = navLinks.find(n=>n.dataset.nav===sectionKey);
+      if (nav) nav.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Update hash
+      history.replaceState(null, '', `#section-${sectionKey}`);
+    }
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        activateSection(link.dataset.nav);
       });
     });
 
-    // Keyboard navigation
-    document.querySelector('.tabs').addEventListener('keydown', e => {
-      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-      let current = Array.from(tabs).findIndex(t=>t.classList.contains('active'));
-      let next = (current + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
-      tabs[next].focus();
-      tabs[next].click();
+    // Hash navigation
+    window.addEventListener('DOMContentLoaded',()=>{
+      let hash = location.hash;
+      if(hash && hash.startsWith('#section-')){
+        const sectionName = hash.replace('#section-', '');
+        if(sections[sectionName]) activateSection(sectionName);
+      }
     });
 
+    // --- Tabbed Content in Sections (inner About, inner Music, etc) ---
+    document.querySelectorAll('.section-tabset').forEach(tabset => {
+      const tabs = tabset.querySelectorAll('.section-tab');
+      const section = tabset.closest('.section-content');
+      const tabContents = section.querySelectorAll('.tabbed-content');
+      tabs.forEach(tab=>{
+        tab.addEventListener('click', ()=>{
+          tabs.forEach(t=>t.classList.remove('active'));
+          tab.classList.add('active');
+          tabContents.forEach(tc=>{
+            tc.style.display = (tc.id === tab.dataset.tab) ? "block" : "none";
+          });
+        });
+      });
+    });
+
+    // Keyboard navigation for tabs (Left/Right arrows)
+    document.querySelectorAll('.section-tabset').forEach(tabset => {
+      tabset.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const tabs = Array.from(tabset.querySelectorAll('.section-tab'));
+        let idx = tabs.findIndex(t => t.classList.contains('active'));
+        let nextIdx = (idx + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+        tabs[nextIdx].focus();
+        tabs[nextIdx].click();
+      });
+    });
+
+    // --- Contact form handling (AJAX-style, but no backend) ---
+    const contactForm = document.getElementById('contact-form');
+    if(contactForm) {
+      contactForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        // Fake sending, show success or randomly error
+        document.getElementById('form-success').style.display = "none";
+        document.getElementById('form-error').style.display = "none";
+        contactForm.querySelector('button[type="submit"]').disabled = true;
+        setTimeout(()=>{
+          if(Math.random()<0.93) {
+            document.getElementById('form-success').style.display = "block";
+            contactForm.reset();
+          } else {
+            document.getElementById('form-error').style.display = "block";
+          }
+          contactForm.querySelector('button[type="submit"]').disabled = false;
+        }, 1200);
+      });
+    }
+
+    // --- Gallery Modal Viewer (feature: click for modal) ---
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+      img.addEventListener('click', function() {
+        let modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.left = '0'; modal.style.top = '0';
+        modal.style.width = '100vw'; modal.style.height = '100vh';
+        modal.style.background = 'rgba(14,34,44,0.84)';
+        modal.style.display = 'flex'; modal.style.alignItems='center'; modal.style.justifyContent='center';
+        modal.style.zIndex = '1500';
+        modal.innerHTML = `<img src="${this.src}" style="max-width:94vw;max-height:94vh;border-radius:2rem;box-shadow:0 4px 64px #000a;" alt="">
+        <span style="position:fixed;top:2.5rem;right:2rem;font-size:1.95rem;font-weight:700;color:#fff;cursor:pointer;z-index:1501;" tabindex="0" aria-label="Close modal" id="closeModal">&times;</span>`;
+        document.body.appendChild(modal);
+        modal.focus();
+        modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+        modal.querySelector('#closeModal').addEventListener('click', ()=>modal.remove());
+        modal.querySelector('#closeModal').addEventListener('keydown',e=>{ if(e.key==="Enter"||e.key===" ")modal.remove(); });
+      });
+    });
+
+    // --- Accessibility / Focus traps for modals & nav ---
+    document.body.addEventListener('keydown', e=>{
+      // ESC closes modal
+      if (e.key === "Escape") {
+        document.querySelectorAll('body > div[style*="position: fixed"]').forEach(m=>m.remove());
+      }
+    });
   </script>
 </body>
 </html>
